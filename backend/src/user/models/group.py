@@ -1,7 +1,11 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String
-from .user import User
+from typing import TYPE_CHECKING
+
 from src.core.mixins import PrimaryKeyMixin, TimeStampMixin
+
+if TYPE_CHECKING:
+    from .user import User
 
 
 class Group(PrimaryKeyMixin, TimeStampMixin):
