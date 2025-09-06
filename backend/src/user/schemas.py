@@ -26,3 +26,23 @@ class CreateUserRequestSchema(BaseSchema):
         max_length=255,
         description="University password"
     )
+
+
+class UpdateUserUnivInfoRequestSchema(BaseSchema):
+    telegram_id: int = Field(
+        ...,
+        ge=0,
+        description="Telegram ID"
+    )
+    university_email: EmailStr | None = Field(
+        None,
+        min_length=5,
+        max_length=255,
+        description="University email"
+    )
+    university_password: str | None = Field(
+        None,
+        min_length=5,
+        max_length=255,
+        description="University password"
+    )
