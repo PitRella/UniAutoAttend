@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from src.core.dao import BaseDAO
 from src.core.service import BaseService
 from src.user.schemas import CreateUserRequestSchema
-from src.user.models import User
+from src.user.model import User
 
 
 class UserService(BaseService):
@@ -19,6 +19,7 @@ class UserService(BaseService):
         ](session=db_session, model=User)
 
     async def create_user(self, user_schema: CreateUserRequestSchema) -> User:
+        # TODO: Implement user password encryption
         async with self._session.begin():
             user: User = await self._dao.create(user_schema)
         return user
