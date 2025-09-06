@@ -6,7 +6,7 @@ from src.user.schemas import (
     CreateUserRequestSchema,
     UpdateUserUnivInfoRequestSchema
 )
-from src.user.service import UserService
+from src.user.services import UserService
 from src.core.dependency import get_service
 
 user_router = APIRouter(prefix='/user', tags=['user'])

@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, FastAPI
 
 from src.core.middleware import GlobalExceptionMiddleware
-from src.user.router import user_router
+from src.user.routers import user_router
 
 logger = logging.getLogger(__name__)
 
