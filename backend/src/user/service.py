@@ -15,8 +15,8 @@ class UserService(BaseService):
         super().__init__(db_session)
         self._dao = user_dao or BaseDAO[
             User,
-            CreateUserRequestSchema
-        ](db_session, model=User)
+            CreateUserRequestSchema,
+        ](session=db_session, model=User)
 
     async def create_user(self, user_schema: CreateUserRequestSchema) -> User:
         async with self._session.begin():
