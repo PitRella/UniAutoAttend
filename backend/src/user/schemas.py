@@ -1,7 +1,8 @@
-from pydantic import BaseModel, Field
+from pydantic import Field, EmailStr
+from src.core.schemas import BaseSchema
 
 
-class CreateUserRequestSchema(BaseModel):
+class CreateUserRequestSchema(BaseSchema):
     telegram_id: int = Field(
         ...,
         ge=0,
@@ -13,4 +14,15 @@ class CreateUserRequestSchema(BaseModel):
         max_length=32,
         description="Telegram username"
     )
-
+    university_email: EmailStr = Field(
+        ...,
+        min_length=5,
+        max_length=255,
+        description="University email"
+    )
+    university_password: str = Field(
+        ...,
+        min_length=5,
+        max_length=255,
+        description="University password"
+    )
