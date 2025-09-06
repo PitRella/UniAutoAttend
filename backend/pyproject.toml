@@ -1,0 +1,19 @@
+[project]
+name = "UniversityAutoAttendLessons"
+version = "1.0.0"
+description = "Project to auto attend lessons in nure ua"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.16.5",
+    "fastapi>=0.116.1",
+    "pydantic-settings>=2.10.1",
+    "sqlalchemy>=2.0.43",
+    "uvicorn>=0.35.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.17.1",
+    "ruff>=0.12.12",
+]
