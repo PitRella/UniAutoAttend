@@ -6,7 +6,7 @@ from src.user.schemas import (
     CreateUserRequestSchema,
     UpdateUserUnivInfoRequestSchema
 )
-from src.user.model import User
+from src.user.models import User
 
 
 class UserService(BaseService):

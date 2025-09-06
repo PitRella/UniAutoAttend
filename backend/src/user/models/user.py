@@ -1,8 +1,11 @@
-from sqlalchemy.orm import Mapped, mapped_column
+from typing import Optional
+
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Boolean
-from sqlalchemy.sql.schema import UniqueConstraint
+from sqlalchemy.sql.schema import UniqueConstraint, ForeignKey
 
 from src.core.mixins import PrimaryKeyMixin, TimeStampMixin
+from src.user.models.group import Group
 
 
 class User(PrimaryKeyMixin, TimeStampMixin):
@@ -36,6 +39,17 @@ class User(PrimaryKeyMixin, TimeStampMixin):
         Boolean,
         default=True,
         comment="Is active?"
+    )
+
+    group_id: Mapped[int | None] = mapped_column(
+        ForeignKey('groups.id', ondelete='SET NULL'),
+        nullable=True,
+        comment="User's group ID"
+    )
+
+    group: Mapped[Optional["Group"]] = relationship(
+        "Group",
+        back_populates="users"
     )
 
     __table_args__ = (
