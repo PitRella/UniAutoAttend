@@ -4,7 +4,7 @@ from pathlib import Path
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 COMMON_CONFIG = SettingsConfigDict(
     env_file=BASE_DIR / '.env',
     env_file_encoding='utf-8',
