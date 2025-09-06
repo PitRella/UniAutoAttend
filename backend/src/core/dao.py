@@ -44,15 +44,6 @@ class BaseDAO[
         self._session: AsyncSession = session
         self._model: type[Model] = model
 
-    @property
-    def session(self) -> AsyncSession:
-        """Return the current database session."""
-        return self._session
-
-    @property
-    def model(self) -> type[Model]:
-        """Return the current model for dao."""
-        return self._model
 
     async def create(self, data: CreateSchema | dict[str, Any]) -> Model:
         """Create a new database record using provided data.
@@ -72,14 +63,14 @@ class BaseDAO[
         """
         # For rare cases like to create a user with hash pass
         if isinstance(data, dict):
-            created_model = self.model(**data)
-            self.session.add(created_model)
+            created_model = self._model(**data)
+            self._session.add(created_model)
             return created_model
         # Cast to show mypy that our schema has a model_dump method
-        created_model = self.model(
+        created_model = self._model(
             **cast(BaseModel, data).model_dump(exclude_unset=True)
         )
-        self.session.add(created_model)
+        self._session.add(created_model)
         return created_model
 
     async def _get(self, *filters: Any, **filters_by: Any) -> Result[Any]:
@@ -96,9 +87,9 @@ class BaseDAO[
 
         """
         query: Select[Any] = (
-            select(self.model).where(*filters).filter_by(**filters_by)
+            select(self._model).where(*filters).filter_by(**filters_by)
         )
-        return await self.session.execute(query)
+        return await self._session.execute(query)
 
     async def get_one(self, *filters: Any, **filters_by: Any) -> Model | None:
         """Retrieve a single record matching the specified filters.
@@ -129,16 +120,16 @@ class BaseDAO[
 
         """
         options = [
-            selectinload(getattr(self.model, relation))
+            selectinload(getattr(self._model, relation))
             for relation in relations
         ]
         query: Select[Any] = (
-            select(self.model)
+            select(self._model)
             .where(*filters)
             .filter_by(**filters_by)
             .options(*options)
         )
-        result: Result[Any] = await self.session.execute(query)
+        result: Result[Any] = await self._session.execute(query)
         return result.scalar_one_or_none()
 
     async def get_all(
@@ -176,7 +167,7 @@ class BaseDAO[
                 )
             ]
         query: Select[Any] = (
-            select(self.model)
+            select(self._model)
             .where(*filters, *pagination)
             .filter_by(**filters_by)
             .order_by(
@@ -187,7 +178,7 @@ class BaseDAO[
         )
         if limit:
             query = query.limit(limit)
-        result = await self.session.execute(query)
+        result = await self._session.execute(query)
         return cast(list[Model], result.scalars().all())
 
     async def update(
@@ -208,13 +199,13 @@ class BaseDAO[
 
         """
         query: Update = (
-            update(self.model)
+            update(self._model)
             .where(*filters)
             .filter_by(**filters_by)
             .values(update_data)
-            .returning(self.model)
+            .returning(self._model)
         )
-        result = await self.session.execute(query)
+        result = await self._session.execute(query)
         return result.scalar_one_or_none()
 
     async def delete(
@@ -234,6 +225,6 @@ class BaseDAO[
 
         """
         query: Delete = (
-            Delete(self.model).where(*filters).filter_by(**filters_by)
+            Delete(self._model).where(*filters).filter_by(**filters_by)
         )
-        await self.session.execute(query)
+        await self._session.execute(query)
