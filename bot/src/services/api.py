@@ -2,7 +2,7 @@ import aiohttp
 import asyncio
 import logging
 
-from src.core.models import UserSchema
+from src.core.schemas import UserSchema
 
 logger = logging.getLogger(__name__)
 

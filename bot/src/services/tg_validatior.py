@@ -1,4 +1,4 @@
-from src.core.models import UserSchema
+from src.core.schemas import UserSchema
 from src.exceptions import (
     NoCallbackDataException,
     NoPreviousMessageException,
