@@ -9,15 +9,15 @@ def get_language_keyboard(user_language: Language) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     
     # Ukrainian button
-    uk_text = "🇺🇦 Українська"
+    uk_text = "Українська"
     if user_language == Language.UKRAINIAN:
-        uk_text += " ✅"
+        uk_text += " (Current)"
     builder.button(text=uk_text, callback_data=f"lang_{Language.UKRAINIAN}")
     
     # English button
-    en_text = "🇺🇸 English"
+    en_text = "English"
     if user_language == Language.ENGLISH:
-        en_text += " ✅"
+        en_text += " (Current)"
     builder.button(text=en_text, callback_data=f"lang_{Language.ENGLISH}")
     
     builder.adjust(1)
