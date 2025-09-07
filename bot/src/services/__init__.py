@@ -1,5 +1,6 @@
 from .user import UserService
 from .api import ApiService
+from .user_validator import UserDataValidator
 from .tg_validatior import TelegramValidatorService
 from src.core.settings import Settings
 
@@ -12,6 +13,7 @@ __all__ = [
     'UserService',
     'ApiService',
     'TelegramValidatorService',
+    'UserDataValidator',
     'user_service',
     'api_service'
 ]
