@@ -1,6 +1,6 @@
 from .user import UserService
 from .api import ApiService
-from .validator import TelegramValidatorService
+from .tg_validatior import TelegramValidatorService
 from src.core.settings import Settings
 
 settings = Settings.load()
