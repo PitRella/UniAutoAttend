@@ -19,6 +19,14 @@ class TelegramSettings(BaseSettings):
     API_TOKEN: str = ''
 
 
+class ApiSettings(BaseSettings):
+    """API-related settings."""
+    model_config = SettingsConfigDict(**COMMON_CONFIG, env_prefix='API_')
+
+    BASE_URL: str = 'http://localhost:8000'
+    TIMEOUT: int = 10
+
+
 class Settings(BaseSettings):
     """Base settings class for the application."""
 
@@ -32,6 +40,9 @@ class Settings(BaseSettings):
     # Nested settings
     telegram_settings: TelegramSettings = Field(
         default_factory=TelegramSettings
+    )
+    api_settings: ApiSettings = Field(
+        default_factory=ApiSettings
     )
 
     @classmethod
