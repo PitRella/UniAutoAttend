@@ -1,3 +1,3 @@
-from .user import NoUserException, NoCallbackDataException
+from .user import NoUserException, NoCallbackDataException, NoUserDataExceptions
 
-__all__ = ['NoUserException', 'NoCallbackDataException']
+__all__ = ['NoUserException', 'NoCallbackDataException', 'NoUserDataExceptions']
