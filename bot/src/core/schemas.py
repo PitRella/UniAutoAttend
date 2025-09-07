@@ -16,3 +16,9 @@ class UserSchema:
 
     def to_dict(self) -> dict:
         return asdict(self)
+
+
+class CreateUserRequestSchema(BaseModel):
+    telegram_id: int
+    email: EmailStr
+    password: str
