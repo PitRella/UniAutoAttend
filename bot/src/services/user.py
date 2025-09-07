@@ -46,10 +46,6 @@ class UserService:
         if telegram_id in self._users:
             self._users[telegram_id].password = password
 
-    def is_valid_email(self, email: str) -> bool:
-        """Validate email format."""
-        return re.match(EMAIL_PATTERN, email) is not None
-
     def get_user(self, telegram_id: int) -> Optional[UserSchema]:
         """Get user by ID."""
         return self._users.get(telegram_id)
