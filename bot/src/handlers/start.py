@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import (
-    User as TgUser,
+    User,
     CallbackQuery,
     Message,
 )
@@ -21,7 +21,7 @@ async def command_start_handler(
         message: Message,
         state: FSMContext
 ) -> None:
-    user: TgUser = TelegramValidatorService.validate_user(message.from_user)
+    user: User = TelegramValidatorService.validate_user(message.from_user)
     user_id: int = user.id
     locale: str | None = user.language_code
 
