@@ -11,5 +11,5 @@ class UserSchema:
     telegram_id: int
     language: Language = Language.ENGLISH
     state: UserState = UserState.START
-    email: str | None
-    password: str | None
+    email: str | None = None
+    password: str | None = None
