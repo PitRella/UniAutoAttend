@@ -1,0 +1,65 @@
+from aiogram import Router, F
+from aiogram.types import Message, CallbackQuery
+from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
+
+from ..core.locales import Language, MessageKey, get_text
+from ..core.keyboards import get_language_keyboard
+from ..core.models import UserState
+from ..core.user_service import user_service
+
+start_router = Router(name="start")
+
+
+@start_router.message(Command("start"))
+async def command_start_handler(message: Message, state: FSMContext) -> None:
+    """Handle /start command."""
+    user_id = message.from_user.id
+    locale = message.from_user.language_code
+    
+    # Get or create user
+    user = user_service.get_or_create_user(user_id, locale)
+    
+    # Send welcome message with language selection
+    welcome_text = get_text(user.language, MessageKey.WELCOME)
+    keyboard = get_language_keyboard(user.language)
+    
+    await message.answer(
+        f"{welcome_text}\n\n{get_text(user.language, MessageKey.SELECT_LANGUAGE)}",
+        reply_markup=keyboard
+    )
+    
+    # Update user state
+    user_service.update_user_state(user_id, UserState.LANGUAGE_SELECTION)
+
+
+@start_router.callback_query(F.data.startswith("lang_"))
+async def language_selection_handler(callback: CallbackQuery, state: FSMContext) -> None:
+    """Handle language selection."""
+    user_id = callback.from_user.id
+    language_code = callback.data.split("_")[1]
+    
+    try:
+        language = Language(language_code)
+        user = user_service.get_user(user_id)
+        
+        if user:
+            # Update user language
+            user_service.update_user_language(user_id, language)
+            
+            # Send confirmation
+            confirmation_text = get_text(language, MessageKey.LANGUAGE_SELECTED)
+            await callback.message.edit_text(confirmation_text)
+            
+            # Ask for email
+            await callback.message.answer(
+                get_text(language, MessageKey.ENTER_EMAIL)
+            )
+            
+            # Update state
+            user_service.update_user_state(user_id, UserState.EMAIL_INPUT)
+        
+        await callback.answer()
+        
+    except ValueError:
+        await callback.answer("Invalid language selection", show_alert=True)
