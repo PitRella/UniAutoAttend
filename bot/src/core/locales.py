@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import Dict, Any
+from typing import Dict, Any, Union
 
 
 class Language(StrEnum):
@@ -19,14 +19,19 @@ class MessageKey(StrEnum):
     DATA_SENT = "data_sent"
     ERROR_OCCURRED = "error_occurred"
     EMAIL_SENT_SUCCESS = "email_sent_success"
-    LANG_UK = "lang_uk"
-    LANG_EN = "lang_en"
     CURRENT_SUFFIX = "current_suffix"
     CANCEL = "cancel"
 
 
+class LanguageLabelKey(StrEnum):
+    """Keys for language display names."""
+    UK = "uk"
+    EN = "en"
+
+
 # Translation dictionaries
-TRANSLATIONS: Dict[Language, Dict[MessageKey, str]] = {
+# Allow both message keys and language label keys
+TRANSLATIONS: Dict[Language, Dict[Union[MessageKey, LanguageLabelKey], str]] = {
     Language.UKRAINIAN: {
         MessageKey.WELCOME: "👋 Вітаю! Я бот для автоматичного відвідування університетських занять.",
         MessageKey.SELECT_LANGUAGE: "🌐 Будь ласка, оберіть мову:",
@@ -37,8 +42,8 @@ TRANSLATIONS: Dict[Language, Dict[MessageKey, str]] = {
         MessageKey.DATA_SENT: "📤 Дані відправлено на сервер...",
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
-        MessageKey.LANG_UK: "Українська",
-        MessageKey.LANG_EN: "English",
+        LanguageLabelKey.UK: "Українська",
+        LanguageLabelKey.EN: "English",
         MessageKey.CURRENT_SUFFIX: " (Поточна)",
         MessageKey.CANCEL: "❌ Скасувати",
     },
@@ -52,15 +57,15 @@ TRANSLATIONS: Dict[Language, Dict[MessageKey, str]] = {
         MessageKey.DATA_SENT: "📤 Sending data to server...",
         MessageKey.ERROR_OCCURRED: "❌ An error occurred. Please try again later.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Data successfully sent to server!",
-        MessageKey.LANG_UK: "Ukrainian",
-        MessageKey.LANG_EN: "English",
+        LanguageLabelKey.UK: "Ukrainian",
+        LanguageLabelKey.EN: "English",
         MessageKey.CURRENT_SUFFIX: " (Current)",
         MessageKey.CANCEL: "❌ Cancel",
     }
 }
 
 
-def get_text(language: Language, key: MessageKey) -> str:
+def get_text(language: Language, key: Union[MessageKey, LanguageLabelKey]) -> str:
     """Get translated text for given language and key."""
     return TRANSLATIONS.get(language, TRANSLATIONS[Language.ENGLISH]).get(key, str(key))
 

@@ -1,19 +1,19 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from .locales import Language, MessageKey, get_text
+from .locales import Language, MessageKey, LanguageLabelKey, get_text
 
 
 def get_language_keyboard(user_language: Language) -> InlineKeyboardMarkup:
     """Create language selection keyboard."""
     builder = InlineKeyboardBuilder()
     
-    uk_text = get_text(user_language, MessageKey.LANG_UK)
+    uk_text = get_text(user_language, LanguageLabelKey.UK)
     if user_language == Language.UKRAINIAN:
         uk_text += get_text(user_language, MessageKey.CURRENT_SUFFIX)
     builder.button(text=uk_text, callback_data=f"lang_{Language.UKRAINIAN}")
 
-    en_text = get_text(user_language, MessageKey.LANG_EN)
+    en_text = get_text(user_language, LanguageLabelKey.EN)
     if user_language == Language.ENGLISH:
         en_text += get_text(user_language, MessageKey.CURRENT_SUFFIX)
     builder.button(text=en_text, callback_data=f"lang_{Language.ENGLISH}")
