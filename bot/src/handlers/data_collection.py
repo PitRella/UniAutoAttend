@@ -3,7 +3,8 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from src.core.locales import MessageKey, get_text
-from src.core.models import UserState, UserSchema
+from src.core.models import UserSchema
+from src.core.enum import UserState
 from src.services import user_service, TelegramValidatorService
 from src.services import api_service
 

@@ -1,7 +1,8 @@
 import re
-from enum import StrEnum
 
 from pydantic import BaseModel, Field, EmailStr, SecretStr, field_validator
+
+from src.core.enum import UserState
 from src.core.locales import Language
 from src.exceptions.models import BadPasswordSchemaException
 
@@ -10,15 +11,6 @@ PASSWORD_PATTERN = re.compile(
 )
 
 EMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-
-
-class UserState(StrEnum):
-    """User conversation states."""
-    START = "start"
-    LANGUAGE_SELECTION = "language_selection"
-    EMAIL_INPUT = "email_input"
-    PASSWORD_INPUT = "password_input"
-    COMPLETED = "completed"
 
 
 class UserSchema(BaseModel):

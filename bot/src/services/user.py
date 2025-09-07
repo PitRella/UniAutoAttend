@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
-from src.core.models import UserState, UserSchema
+from src.core.models import UserSchema
+from src.core.enum import UserState
 from src.core.locales import Language, detect_language_from_locale
 
 

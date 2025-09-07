@@ -10,7 +10,8 @@ from aiogram.types import (
 from aiogram.types import InlineKeyboardMarkup
 from src.core.locales import Language, MessageKey, get_text
 from src.core.keyboards import get_language_keyboard
-from src.core.models import UserState, UserSchema
+from src.core.models import UserSchema
+from src.core.enum import UserState
 from src.services import user_service, TelegramValidatorService
 
 start_router = Router(name="start")
