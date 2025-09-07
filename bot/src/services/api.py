@@ -14,7 +14,7 @@ class ApiService:
         self.base_url = base_url
         self.timeout = aiohttp.ClientTimeout(total=10)
     
-    async def send_user_data(self, user_data: UserSchema, username: str = "") -> bool:
+    async def send_user_data(self, user_data: UserSchema) -> bool:
         """Send user data to the API endpoint."""
         try:
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
