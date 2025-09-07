@@ -4,8 +4,8 @@ from aiogram.fsm.context import FSMContext
 
 
 from src.core.locales import MessageKey, get_text
-from src.core.models import UserState
-from src.services import user_service
+from src.core.models import UserState, UserData
+from src.services import user_service, ValidatorService
 from src.services import api_service
 
 data_collection_router = Router(name="data_collection")
@@ -14,18 +14,14 @@ data_collection_router = Router(name="data_collection")
 @data_collection_router.message(F.text)
 async def text_message_handler(message: Message, state: FSMContext) -> None:
     """Handle text messages for data collection."""
-    user_id = message.from_user.id
-    user = user_service.get_user(user_id)
-    
-    if not user:
-        return
-    
-    text = message.text.strip()
-    
-    if user.state == UserState.EMAIL_INPUT:
-        await handle_email_input(message, user, text)
-    elif user.state == UserState.PASSWORD_INPUT:
-        await handle_password_input(message, user, text)
+    user_id: int = ValidatorService.validate_user_id(message.from_user)
+    user_data: UserData = ValidatorService.validate_user_data(user_service.get_user(user_id))
+    text: str  = ValidatorService.validate_message(message.text).strip()
+    match user_data.state:
+        case UserState.EMAIL_INPUT:
+            await handle_email_input(message, user_data, text)
+        case UserState.PASSWORD_INPUT:
+            await handle_password_input(message, user_data, text)
 
 
 async def handle_email_input(message: Message, user, email: str) -> None:
