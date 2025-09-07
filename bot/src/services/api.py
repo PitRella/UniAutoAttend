@@ -19,7 +19,7 @@ class ApiService:
         try:
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
                 payload = {
-                    "telegram_id": user_data.user_id,
+                    "telegram_id": user_data.telegram_id,
                     "username": username,
                     "university_email": user_data.email,
                     "university_password": user_data.password
