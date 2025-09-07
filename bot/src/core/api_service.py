@@ -1,8 +1,9 @@
 import aiohttp
 import asyncio
-from typing import Dict, Any, Optional
 import logging
 
+from src.core.settings import Settings
+settings = Settings.load()
 from .models import UserData
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class ApiService:
             
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
                 async with session.post(
-                    f"{self.base_url}/api/user-data",
+                    f"{self.base_url}/user",
                     json=payload,
                     headers={"Content-Type": "application/json"}
                 ) as response:
@@ -56,5 +57,4 @@ class ApiService:
             return False
 
 
-# Global API service instance
-api_service = ApiService()
+api_service = ApiService(settings.api_settings.url)
