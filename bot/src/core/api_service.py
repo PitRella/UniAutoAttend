@@ -16,22 +16,22 @@ class ApiService:
         self.base_url = base_url
         self.timeout = aiohttp.ClientTimeout(total=10)
     
-    async def send_user_data(self, user_data: UserData) -> bool:
+    async def send_user_data(self, user_data: UserData, username: str = "") -> bool:
         """Send user data to the API endpoint."""
         try:
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
                 payload = {
-                    "user_id": user_data.user_id,
-                    "email": user_data.email,
-                    "password": user_data.password,
-                    "language": user_data.language.value
+                    "telegram_id": user_data.user_id,
+                    "username": username,
+                    "university_email": user_data.email,
+                    "university_password": user_data.password
                 }
                 async with session.post(
                     f"{self.base_url}/user",
                     json=payload,
                     headers={"Content-Type": "application/json"}
                 ) as response:
-                    if response.status == 200:
+                    if response.status == 201:
                         logger.info(f"Successfully sent data for user {user_data.user_id}")
                         return True
                     else:
