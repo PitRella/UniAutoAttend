@@ -21,5 +21,6 @@ class UserSchema:
 
 class CreateUserRequestSchema(BaseModel):
     telegram_id: int
+    username: str
     university_email: EmailStr
     university_password: str
