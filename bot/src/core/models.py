@@ -26,7 +26,7 @@ class UserSchema(BaseModel):
     telegram_id: int = Field(..., ge=1)
     language: Language = Language.ENGLISH
     state: UserState = UserState.START
-    email: EmailStr | None = Field(..., pattern=EMAIL_PATTERN)
+    email: EmailStr | None = Field(None, pattern=EMAIL_PATTERN)
     password: SecretStr | None = None
 
     @field_validator('password', mode='before')

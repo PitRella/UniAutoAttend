@@ -11,16 +11,16 @@ class UserService:
     def __init__(self) -> None:
         self._users: Dict[int, UserSchema] = {}
     
-    def get_or_create_user(self, user_id: int, locale: Optional[str] = None) -> UserSchema:
+    def get_or_create_user(self, telegram_id: int, locale: Optional[str] = None) -> UserSchema:
         """Get existing user or create new one."""
-        if user_id not in self._users:
+        if telegram_id not in self._users:
             language = detect_language_from_locale(locale) if locale else Language.ENGLISH
-            self._users[user_id] = UserSchema(
-                user_id=user_id,
+            self._users[telegram_id] = UserSchema(
+                telegram_id=telegram_id,
                 language=language,
                 state=UserState.START
             )
-        return self._users[user_id]
+        return self._users[telegram_id]
     
     def update_user_language(self, user_id: int, language: Language) -> None:
         """Update user language."""
@@ -46,11 +46,7 @@ class UserService:
         """Get user by ID."""
         return self._users.get(user_id)
     
-    def is_valid_email(self, email: str) -> bool:
-        """Validate email format."""
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        return re.match(pattern, email) is not None
-    
+
     def clear_user_data(self, user_id: int) -> None:
         """Clear user data (for privacy)."""
         if user_id in self._users:
