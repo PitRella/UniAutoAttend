@@ -1,6 +1,6 @@
 import re
-
-from dataclasses import dataclass
+from pydantic import BaseModel, EmailStr
+from dataclasses import dataclass, asdict
 from src.core.enum import UserState
 from src.core.locales import Language
 
@@ -13,3 +13,6 @@ class UserSchema:
     state: UserState = UserState.START
     email: str | None = None
     password: str | None = None
+
+    def to_dict(self) -> dict:
+        return asdict(self)
