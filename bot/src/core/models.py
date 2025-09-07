@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional
-from enum import Enum
+from enum import StrEnum
 
 from .dto import BaseDTO
 from .locales import Language
 
 
-class UserState(Enum):
+class UserState(StrEnum):
     """User conversation states."""
     START = "start"
     LANGUAGE_SELECTION = "language_selection"
@@ -23,4 +23,5 @@ class UserData(BaseDTO):
     state: UserState = UserState.START
     email: Optional[str] = None
     password: Optional[str] = None
+
 
