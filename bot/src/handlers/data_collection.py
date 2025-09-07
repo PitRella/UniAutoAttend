@@ -35,6 +35,11 @@ async def handle_email_input(
         user_data: UserSchema,
         email: str
 ) -> None:
+    if not user_service.is_valid_email(email):
+        await message.answer(
+            get_text(user_data.language, MessageKey.INVALID_EMAIL)
+        )
+        return
     user_service.set_user_email(
         user_data.telegram_id,
         email
