@@ -35,9 +35,6 @@ async def handle_email_input(
         user_data: UserSchema,
         email: str
 ) -> None:
-    """Handle email input."""
-
-    # Save email and ask for password
     user_service.set_user_email(
         user_data.telegram_id,
         email
@@ -46,7 +43,6 @@ async def handle_email_input(
         user_data.telegram_id,
         UserState.PASSWORD_INPUT
     )
-
     await message.answer(
         get_text(
             user_data.language,

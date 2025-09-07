@@ -25,24 +25,23 @@ class UserService:
             )
         return self._users[telegram_id]
 
-    def update_user_language(self, telegram_id: int,
-                             language: Language) -> None:
-        """Update user language."""
+    def update_user_language(
+            self,
+            telegram_id: int,
+            language: Language
+    ) -> None:
         if telegram_id in self._users:
             self._users[telegram_id].language = language
 
     def update_user_state(self, telegram_id: int, state: UserState) -> None:
-        """Update user state."""
         if telegram_id in self._users:
             self._users[telegram_id].state = state
 
     def set_user_email(self, telegram_id: int, email: str) -> None:
-        """Set user email."""
         if telegram_id in self._users:
             self._users[telegram_id].email = email
 
     def set_user_password(self, telegram_id, password: str) -> None:
-        """Set user password."""
         if telegram_id in self._users:
             self._users[telegram_id].password = password
 
@@ -51,7 +50,6 @@ class UserService:
         return self._users.get(telegram_id)
 
     def clear_user_data(self, telegram_id: int) -> None:
-        """Clear user data (for privacy)."""
         if telegram_id in self._users:
             self._users[telegram_id].email = None
             self._users[telegram_id].password = None
