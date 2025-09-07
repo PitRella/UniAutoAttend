@@ -4,36 +4,45 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import User as TgUser
 
+from aiogram.types import InlineKeyboardMarkup
 from src.core.locales import Language, MessageKey, get_text
 from src.core.keyboards import get_language_keyboard
-from src.core.models import UserState
+from src.core.models import UserState, UserData
+from src.exceptions import NoUserException
 from src.services import user_service
 
 start_router = Router(name="start")
 
 
 @start_router.message(Command("start"))
-async def command_start_handler(message: Message, state: FSMContext) -> None:
-    """Handle /start command."""
+async def command_start_handler(
+        message: Message,
+        state: FSMContext
+) -> None:
     user: TgUser | None = message.from_user
     if not user:
-        raise
-    user_id = message.from_user.id
-    locale = message.from_user.language_code
+        raise NoUserException
+    user_id: int = user.id
+    locale: str | None = user.language_code
 
-    # Get or create user
-    user = user_service.get_or_create_user(user_id, locale)
+    user_data: UserData = user_service.get_or_create_user(
+        user_id,
+        locale
+    )
 
-    # Send welcome message with language selection
-    welcome_text = get_text(user.language, MessageKey.WELCOME)
-    keyboard = get_language_keyboard(user.language)
+    welcome_text: str = get_text(
+        language=user_data.language,
+        key=MessageKey.WELCOME
+    )
+    keyboard: InlineKeyboardMarkup = get_language_keyboard(
+        user_language=user_data.language
+    )
 
     await message.answer(
-        f"{welcome_text}\n\n{get_text(user.language, MessageKey.SELECT_LANGUAGE)}",
+        f"{welcome_text}\n\n{get_text(user_data.language, MessageKey.SELECT_LANGUAGE)}",
         reply_markup=keyboard
     )
 
-    # Update user state
     user_service.update_user_state(user_id, UserState.LANGUAGE_SELECTION)
 
 
