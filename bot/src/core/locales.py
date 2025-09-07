@@ -43,7 +43,7 @@ TRANSLATIONS: Dict[Language, Dict[Union[MessageKey, LanguageLabelKey], str]] = {
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
         LanguageLabelKey.UK: "Українська",
-        LanguageLabelKey.EN: "English",
+        LanguageLabelKey.EN: "Англійська",
         MessageKey.CURRENT_SUFFIX: " (Поточна)",
         MessageKey.CANCEL: "❌ Скасувати",
     },
