@@ -27,17 +27,17 @@ class ApiService:
                     headers={"Content-Type": "application/json"}
                 ) as response:
                     if response.status == 201:
-                        logger.info(f"Successfully sent data for user {user_data.user_id}")
+                        logger.info(f"Successfully sent data for user {payload.telegram_id}")
                         return True
                     else:
-                        logger.error(f"API returned status {response.status} for user {user_data.user_id}")
+                        logger.error(f"API returned status {response.status} for user {payload.telegram_id}")
                         return False
                         
         except asyncio.TimeoutError:
-            logger.error(f"Timeout when sending data for user {user_data.user_id}")
+            logger.error(f"Timeout when sending data for user {payload.telegram_id}")
             return False
         except Exception as e:
-            logger.error(f"Error sending data for user {user_data.user_id}: {e}")
+            logger.error(f"Error sending data for user {payload.telegram_id}: {e}")
             return False
     
     async def health_check(self) -> bool:
