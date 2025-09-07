@@ -93,5 +93,5 @@ async def language_selection_handler(
         user_service.update_user_state(user_id, UserState.EMAIL_INPUT)
         await callback.answer()
 
-    except ValueError:
+    except ValueError: # TODO: Raise custom exception
         await callback.answer("Invalid language selection", show_alert=True)
