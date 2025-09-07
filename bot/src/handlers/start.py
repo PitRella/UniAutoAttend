@@ -52,14 +52,19 @@ async def language_selection_handler(
 ) -> None:
     """Handle language selection."""
     user_id: int = callback.from_user.id
-    callback_data: str = TelegramValidatorService.validate_callback_data(callback.data)
+    callback_data: str = TelegramValidatorService.validate_callback_data(
+        callback.data
+    )
     previous_message: Message = TelegramValidatorService.validate_previous_message(
         callback.message
     )
     language_code: str = callback_data.split("_")[1]
     try:
         language: Language = Language(language_code)
-        user_service.update_user_language(user_id, language)
+        user_service.update_user_language(
+            user_id,
+            language
+        )
         confirmation_text: str = get_text(
             language,
             MessageKey.LANGUAGE_SELECTED
