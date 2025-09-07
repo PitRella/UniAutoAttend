@@ -31,7 +31,8 @@ class LanguageLabelKey(StrEnum):
 
 # Translation dictionaries
 # Allow both message keys and language label keys
-TRANSLATIONS: Dict[Language, Dict[Union[MessageKey, LanguageLabelKey], str]] = {
+TRANSLATIONS: Dict[
+    Language, Dict[Union[MessageKey, LanguageLabelKey], str]] = {
     Language.UKRAINIAN: {
         MessageKey.WELCOME: "👋 Вітаю! Я бот для автоматичного відвідування університетських занять.",
         MessageKey.SELECT_LANGUAGE: "🌐 Будь ласка, оберіть мову:",
@@ -65,13 +66,27 @@ TRANSLATIONS: Dict[Language, Dict[Union[MessageKey, LanguageLabelKey], str]] = {
 }
 
 
-def get_text(language: Language, key: Union[MessageKey, LanguageLabelKey]) -> str:
+def get_text(
+        language: Language,
+        key: Union[
+            MessageKey,
+            LanguageLabelKey
+        ]
+) -> str:
     """Get translated text for given language and key."""
-    return TRANSLATIONS.get(language, TRANSLATIONS[Language.ENGLISH]).get(key, str(key))
+    return TRANSLATIONS.get(
+        language,
+        TRANSLATIONS[Language.ENGLISH]
+    ).get(
+        key,
+        str(key)
+    )
 
 
-def detect_language_from_locale(locale: str) -> Language:
-    """Detect language from user locale."""
-    if locale and locale.startswith('uk'):
-        return Language.UKRAINIAN
+def detect_language_from_locale(locale: str | None) -> Language:
+    match locale:
+        case 'uk':
+            return Language.UKRAINIAN
+        case 'en':
+            return Language.ENGLISH
     return Language.ENGLISH

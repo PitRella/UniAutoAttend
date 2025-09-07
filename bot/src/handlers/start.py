@@ -24,7 +24,6 @@ async def command_start_handler(
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_id: int = user.id
     locale: str | None = user.language_code
-
     user_data: UserSchema = user_service.get_or_create_user(
         user_id,
         locale
