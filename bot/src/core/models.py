@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 from enum import Enum
 
+from .dto import BaseDTO
 from .locales import Language
 
 
@@ -14,15 +15,12 @@ class UserState(Enum):
     COMPLETED = "completed"
 
 
-@dataclass
-class UserData:
+@dataclass(slots=True)
+class UserData(BaseDTO):
     """User data model."""
     user_id: int
     language: Language = Language.ENGLISH
     state: UserState = UserState.START
     email: Optional[str] = None
     password: Optional[str] = None
-    
-    def is_data_complete(self) -> bool:
-        """Check if all required data is collected."""
-        return self.email is not None and self.password is not None
+
