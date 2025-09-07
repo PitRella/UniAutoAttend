@@ -20,9 +20,15 @@ class ApiService:
         """Send user data to the API endpoint."""
         try:
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
+                payload = {
+                    "user_id": user_data.user_id,
+                    "email": user_data.email,
+                    "password": user_data.password,
+                    "language": user_data.language.value
+                }
                 async with session.post(
                     f"{self.base_url}/user",
-                    json=user_data.to_dict(),
+                    json=payload,
                     headers={"Content-Type": "application/json"}
                 ) as response:
                     if response.status == 200:
