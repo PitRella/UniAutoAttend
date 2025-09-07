@@ -81,8 +81,8 @@ async def handle_password_input(
 
     try:
         username = message.from_user.username or message.from_user.first_name or ""
-        success = await api_service.send_user_data(user_data, username)
-
+        user_data.username = username
+        success = await api_service.send_user_data(user_data)
         if success:
             await message.answer(
                 get_text(
