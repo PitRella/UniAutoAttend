@@ -2,7 +2,7 @@ import aiohttp
 import asyncio
 import logging
 
-from src.core.schemas import UserSchema
+from src.core.schemas import UserSchema, CreateUserRequestSchema
 
 logger = logging.getLogger(__name__)
 
@@ -18,12 +18,7 @@ class ApiService:
         """Send user data to the API endpoint."""
         try:
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
-                payload = {
-                    "telegram_id": user_data.telegram_id,
-                    "username": username,
-                    "university_email": user_data.email,
-                    "university_password": user_data.password
-                }
+                payload = CreateUserRequestSchema.model_validate(user_data.to_dict())
                 async with session.post(
                     f"{self.base_url}/user",
                     json=payload,
