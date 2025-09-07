@@ -18,10 +18,12 @@ class ApiService:
         """Send user data to the API endpoint."""
         try:
             async with aiohttp.ClientSession(timeout=self.timeout) as session:
-                payload = CreateUserRequestSchema.model_validate(user_data.to_dict())
+                payload = CreateUserRequestSchema.model_validate(
+                    user_data.to_dict()
+                )
                 async with session.post(
                     f"{self.base_url}/user",
-                    json=payload,
+                    json=payload.model_dump(),
                     headers={"Content-Type": "application/json"}
                 ) as response:
                     if response.status == 201:
