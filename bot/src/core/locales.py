@@ -19,6 +19,10 @@ class MessageKey(StrEnum):
     DATA_SENT = "data_sent"
     ERROR_OCCURRED = "error_occurred"
     EMAIL_SENT_SUCCESS = "email_sent_success"
+    LANG_UK = "lang_uk"
+    LANG_EN = "lang_en"
+    CURRENT_SUFFIX = "current_suffix"
+    CANCEL = "cancel"
 
 
 # Translation dictionaries
@@ -32,7 +36,11 @@ TRANSLATIONS: Dict[Language, Dict[MessageKey, str]] = {
         MessageKey.INVALID_EMAIL: "❌ Неправильний формат електронної пошти. Спробуйте ще раз:",
         MessageKey.DATA_SENT: "📤 Дані відправлено на сервер...",
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
-        MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!"
+        MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
+        MessageKey.LANG_UK: "Українська",
+        MessageKey.LANG_EN: "English",
+        MessageKey.CURRENT_SUFFIX: " (Поточна)",
+        MessageKey.CANCEL: "❌ Скасувати",
     },
     Language.ENGLISH: {
         MessageKey.WELCOME: "👋 Welcome! I'm a bot for automatic university attendance.",
@@ -43,7 +51,11 @@ TRANSLATIONS: Dict[Language, Dict[MessageKey, str]] = {
         MessageKey.INVALID_EMAIL: "❌ Invalid email format. Please try again:",
         MessageKey.DATA_SENT: "📤 Sending data to server...",
         MessageKey.ERROR_OCCURRED: "❌ An error occurred. Please try again later.",
-        MessageKey.EMAIL_SENT_SUCCESS: "✅ Data successfully sent to server!"
+        MessageKey.EMAIL_SENT_SUCCESS: "✅ Data successfully sent to server!",
+        MessageKey.LANG_UK: "Ukrainian",
+        MessageKey.LANG_EN: "English",
+        MessageKey.CURRENT_SUFFIX: " (Current)",
+        MessageKey.CANCEL: "❌ Cancel",
     }
 }
 

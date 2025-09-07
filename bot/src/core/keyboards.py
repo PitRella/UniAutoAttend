@@ -8,18 +8,16 @@ def get_language_keyboard(user_language: Language) -> InlineKeyboardMarkup:
     """Create language selection keyboard."""
     builder = InlineKeyboardBuilder()
     
-    # Ukrainian button
-    uk_text = "Українська"
+    uk_text = get_text(user_language, MessageKey.LANG_UK)
     if user_language == Language.UKRAINIAN:
-        uk_text += " (Current)"
+        uk_text += get_text(user_language, MessageKey.CURRENT_SUFFIX)
     builder.button(text=uk_text, callback_data=f"lang_{Language.UKRAINIAN}")
-    
-    # English button
-    en_text = "English"
+
+    en_text = get_text(user_language, MessageKey.LANG_EN)
     if user_language == Language.ENGLISH:
-        en_text += " (Current)"
+        en_text += get_text(user_language, MessageKey.CURRENT_SUFFIX)
     builder.button(text=en_text, callback_data=f"lang_{Language.ENGLISH}")
-    
+
     builder.adjust(1)
     return builder.as_markup()
 
@@ -27,6 +25,6 @@ def get_language_keyboard(user_language: Language) -> InlineKeyboardMarkup:
 def get_cancel_keyboard(user_language: Language) -> InlineKeyboardMarkup:
     """Create cancel keyboard."""
     builder = InlineKeyboardBuilder()
-    cancel_text = "❌ Скасувати" if user_language == Language.UKRAINIAN else "❌ Cancel"
+    cancel_text = get_text(user_language, MessageKey.CANCEL)
     builder.button(text=cancel_text, callback_data="cancel")
     return builder.as_markup()
