@@ -16,6 +16,7 @@ class MessageKey(StrEnum):
     ENTER_EMAIL = "enter_email"
     ENTER_PASSWORD = "enter_password"
     INVALID_EMAIL = "invalid_email"
+    INVALID_PASSWORD = "invalid_password"
     DATA_SENT = "data_sent"
     ERROR_OCCURRED = "error_occurred"
     EMAIL_SENT_SUCCESS = "email_sent_success"
@@ -40,6 +41,7 @@ TRANSLATIONS: Dict[
         MessageKey.ENTER_EMAIL: "📧 Будь ласка, введіть вашу електронну пошту:",
         MessageKey.ENTER_PASSWORD: "🔐 Тепер введіть пароль від вашої пошти:",
         MessageKey.INVALID_EMAIL: "❌ Неправильний формат електронної пошти. Спробуйте ще раз:",
+        MessageKey.INVALID_PASSWORD: "❌ Неправильний формат паролю. Спробуйте ще раз:",
         MessageKey.DATA_SENT: "📤 Дані відправлено на сервер...",
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
@@ -55,6 +57,7 @@ TRANSLATIONS: Dict[
         MessageKey.ENTER_EMAIL: "📧 Please enter your email address:",
         MessageKey.ENTER_PASSWORD: "🔐 Now enter your email password:",
         MessageKey.INVALID_EMAIL: "❌ Invalid email format. Please try again:",
+        MessageKey.INVALID_PASSWORD: "❌ Invalid password format. Please try again:",
         MessageKey.DATA_SENT: "📤 Sending data to server...",
         MessageKey.ERROR_OCCURRED: "❌ An error occurred. Please try again later.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Data successfully sent to server!",
