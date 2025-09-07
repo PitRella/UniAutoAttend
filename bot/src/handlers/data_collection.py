@@ -5,7 +5,8 @@ from aiogram.fsm.context import FSMContext
 from src.core.locales import MessageKey, get_text
 from src.core.schemas import UserSchema
 from src.core.enum import UserState
-from src.services import user_service, TelegramValidatorService
+from src.services import user_service, TelegramValidatorService, \
+    UserDataValidator
 from src.services import api_service
 
 data_collection_router = Router(name="data_collection")
@@ -35,7 +36,7 @@ async def handle_email_input(
         user_data: UserSchema,
         email: str
 ) -> None:
-    if not user_service.is_valid_email(email):
+    if not UserDataValidator.is_valid_email(email):
         await message.answer(
             get_text(user_data.language, MessageKey.INVALID_EMAIL)
         )
@@ -63,6 +64,11 @@ async def handle_password_input(
 ) -> None:
     """Handle password input."""
     # Save password
+    if not UserDataValidator.is_valid_password(password):
+        await message.answer(
+            get_text(user_data.language, MessageKey.INVALID_PASSWORD)
+        )
+        return
     user_service.set_user_password(
         user_data.telegram_id,
         password
