@@ -1,6 +1,6 @@
 from .user import UserService
 from .api import ApiService
-from .validator import ValidatorService
+from .validator import TelegramValidatorService
 from src.core.settings import Settings
 
 settings = Settings.load()
@@ -11,7 +11,7 @@ api_service = ApiService(settings.api_settings.url)
 __all__ = [
     'UserService',
     'ApiService',
-    'ValidatorService',
+    'TelegramValidatorService',
     'user_service',
     'api_service'
 ]

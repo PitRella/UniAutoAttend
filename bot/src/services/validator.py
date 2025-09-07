@@ -2,7 +2,7 @@ from src.core.models import UserData
 from src.exceptions import (
     NoCallbackDataException,
     NoPreviousMessageException,
-    NoUserException, NoUserDataExceptions
+    NoUserException, NoUserDataExceptions, NoMessageException
 )
 from aiogram.types import (
     User,
@@ -12,7 +12,7 @@ from aiogram.types import (
 )
 
 
-class ValidatorService:
+class TelegramValidatorService:
     @classmethod
     def validate_user_data(cls, user_data: UserData | None) -> UserData:
         if not user_data:
@@ -48,3 +48,6 @@ class ValidatorService:
 
     @classmethod
     def validate_message(cls, message: str | None) -> str:
+        if not message:
+            raise NoMessageException
+        return message

@@ -11,7 +11,7 @@ from aiogram.types import InlineKeyboardMarkup
 from src.core.locales import Language, MessageKey, get_text
 from src.core.keyboards import get_language_keyboard
 from src.core.models import UserState, UserData
-from src.services import user_service, ValidatorService
+from src.services import user_service, TelegramValidatorService
 
 start_router = Router(name="start")
 
@@ -21,7 +21,7 @@ async def command_start_handler(
         message: Message,
         state: FSMContext
 ) -> None:
-    user: TgUser = ValidatorService.validate_user(message.from_user)
+    user: TgUser = TelegramValidatorService.validate_user(message.from_user)
     user_id: int = user.id
     locale: str | None = user.language_code
 
@@ -53,8 +53,8 @@ async def language_selection_handler(
 ) -> None:
     """Handle language selection."""
     user_id: int = callback.from_user.id
-    callback_data: str = ValidatorService.validate_callback_data(callback.data)
-    previous_message: Message = ValidatorService.validate_previous_message(
+    callback_data: str = TelegramValidatorService.validate_callback_data(callback.data)
+    previous_message: Message = TelegramValidatorService.validate_previous_message(
         callback.message
     )
     language_code: str = callback_data.split("_")[1]
