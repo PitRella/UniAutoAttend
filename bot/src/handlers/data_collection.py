@@ -13,10 +13,15 @@ data_collection_router = Router(name="data_collection")
 @data_collection_router.message(F.text)
 async def text_message_handler(message: Message, state: FSMContext) -> None:
     """Handle text messages for data collection."""
-    user_id: int = TelegramValidatorService.validate_user_id(message.from_user)
+    user_id: int = TelegramValidatorService.validate_user_id(
+        message.from_user
+    )
     user_data: UserSchema = TelegramValidatorService.validate_user_data(
-        user_service.get_user(user_id))
-    text: str = TelegramValidatorService.validate_message(message.text).strip()
+        user_service.get_user(user_id)
+    )
+    text: str = TelegramValidatorService.validate_message(
+        message.text
+    ).strip()
     match user_data.state:
         case UserState.EMAIL_INPUT:
             await handle_email_input(message, user_data, text)
@@ -42,7 +47,10 @@ async def handle_email_input(
     )
 
     await message.answer(
-        get_text(user_data.language, MessageKey.ENTER_PASSWORD)
+        get_text(
+            user_data.language,
+            MessageKey.ENTER_PASSWORD
+        )
     )
 
 
