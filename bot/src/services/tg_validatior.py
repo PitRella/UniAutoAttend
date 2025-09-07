@@ -1,4 +1,4 @@
-from src.core.models import UserData
+from src.core.models import UserSchema
 from src.exceptions import (
     NoCallbackDataException,
     NoPreviousMessageException,
@@ -14,7 +14,7 @@ from aiogram.types import (
 
 class TelegramValidatorService:
     @classmethod
-    def validate_user_data(cls, user_data: UserData | None) -> UserData:
+    def validate_user_data(cls, user_data: UserSchema | None) -> UserSchema:
         if not user_data:
             raise NoUserDataExceptions
         return user_data

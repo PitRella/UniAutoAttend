@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 import re
 
-from src.core.models import UserState, UserData
+from src.core.models import UserState, UserSchema
 from src.core.locales import Language, detect_language_from_locale
 
 
@@ -9,13 +9,13 @@ class UserService:
     """Service for managing user data and states."""
     
     def __init__(self) -> None:
-        self._users: Dict[int, UserData] = {}
+        self._users: Dict[int, UserSchema] = {}
     
-    def get_or_create_user(self, user_id: int, locale: Optional[str] = None) -> UserData:
+    def get_or_create_user(self, user_id: int, locale: Optional[str] = None) -> UserSchema:
         """Get existing user or create new one."""
         if user_id not in self._users:
             language = detect_language_from_locale(locale) if locale else Language.ENGLISH
-            self._users[user_id] = UserData(
+            self._users[user_id] = UserSchema(
                 user_id=user_id,
                 language=language,
                 state=UserState.START
@@ -42,7 +42,7 @@ class UserService:
         if user_id in self._users:
             self._users[user_id].password = password
     
-    def get_user(self, user_id: int) -> Optional[UserData]:
+    def get_user(self, user_id: int) -> Optional[UserSchema]:
         """Get user by ID."""
         return self._users.get(user_id)
     

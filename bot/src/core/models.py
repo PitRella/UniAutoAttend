@@ -21,7 +21,7 @@ class UserState(StrEnum):
     COMPLETED = "completed"
 
 
-class UserData(BaseModel):
+class UserSchema(BaseModel):
     """User data model."""
     telegram_id: int = Field(..., ge=1)
     language: Language = Language.ENGLISH

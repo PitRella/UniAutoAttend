@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 
 
 from src.core.locales import MessageKey, get_text
-from src.core.models import UserState, UserData
+from src.core.models import UserState, UserSchema
 from src.services import user_service, TelegramValidatorService
 from src.services import api_service
 
@@ -15,7 +15,7 @@ data_collection_router = Router(name="data_collection")
 async def text_message_handler(message: Message, state: FSMContext) -> None:
     """Handle text messages for data collection."""
     user_id: int = TelegramValidatorService.validate_user_id(message.from_user)
-    user_data: UserData = TelegramValidatorService.validate_user_data(user_service.get_user(user_id))
+    user_data: UserSchema = TelegramValidatorService.validate_user_data(user_service.get_user(user_id))
     text: str  = TelegramValidatorService.validate_message(message.text).strip()
     match user_data.state:
         case UserState.EMAIL_INPUT:
