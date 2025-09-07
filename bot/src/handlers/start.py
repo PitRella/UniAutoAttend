@@ -2,13 +2,21 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import User as TgUser
+from aiogram.types import (
+    User as TgUser,
+    MaybeInaccessibleMessageUnion,
+    InaccessibleMessage
+)
 
 from aiogram.types import InlineKeyboardMarkup
 from src.core.locales import Language, MessageKey, get_text
 from src.core.keyboards import get_language_keyboard
 from src.core.models import UserState, UserData
-from src.exceptions import NoUserException
+from src.exceptions import (
+    NoUserException,
+    NoCallbackDataException,
+    NoUserDataExceptions, NoPreviousMessageException
+)
 from src.services import user_service
 
 start_router = Router(name="start")
@@ -47,33 +55,42 @@ async def command_start_handler(
 
 
 @start_router.callback_query(F.data.startswith("lang_"))
-async def language_selection_handler(callback: CallbackQuery,
-                                     state: FSMContext) -> None:
+async def language_selection_handler(
+        callback: CallbackQuery,
+        state: FSMContext
+) -> None:
     """Handle language selection."""
-    user_id = callback.from_user.id
-    language_code = callback.data.split("_")[1]
-
+    user_id: int = callback.from_user.id
+    callback_data: str | None = callback.data
+    previous_message: MaybeInaccessibleMessageUnion | None = callback.message
+    if not callback_data:
+        raise NoCallbackDataException
+    if not previous_message or isinstance(
+            previous_message,
+            InaccessibleMessage
+    ):
+        raise NoPreviousMessageException
+    language_code: str = callback_data.split("_")[1]
     try:
-        language = Language(language_code)
-        user = user_service.get_user(user_id)
-
-        if user:
-            # Update user language
-            user_service.update_user_language(user_id, language)
-
-            # Send confirmation
-            confirmation_text = get_text(language,
-                                         MessageKey.LANGUAGE_SELECTED)
-            await callback.message.edit_text(confirmation_text)
-
-            # Ask for email
-            await callback.message.answer(
-                get_text(language, MessageKey.ENTER_EMAIL)
+        language: Language = Language(language_code)
+        user_data: UserData | None = user_service.get_user(user_id)
+        if not user_data:
+            raise NoUserDataExceptions
+        user_service.update_user_language(user_id, language)
+        confirmation_text: str = get_text(
+            language,
+            MessageKey.LANGUAGE_SELECTED
+        )
+        await previous_message.edit_text(
+            confirmation_text
+        )
+        await previous_message.answer(
+            get_text(
+                language,
+                MessageKey.ENTER_EMAIL
             )
-
-            # Update state
-            user_service.update_user_state(user_id, UserState.EMAIL_INPUT)
-
+        )
+        user_service.update_user_state(user_id, UserState.EMAIL_INPUT)
         await callback.answer()
 
     except ValueError:
