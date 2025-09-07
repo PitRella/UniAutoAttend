@@ -1,8 +1,8 @@
 from typing import Dict, Optional
 import re
 
-from .models import UserData, UserState
-from .locales import Language, detect_language_from_locale
+from src.core.models import UserState, UserData
+from src.core.locales import Language, detect_language_from_locale
 
 
 class UserService:
@@ -58,5 +58,3 @@ class UserService:
             self._users[user_id].password = None
 
 
-# Global user service instance
-user_service = UserService()

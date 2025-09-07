@@ -2,10 +2,11 @@ from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
-from ..core.locales import MessageKey, get_text
-from ..core.models import UserState
-from ..core.user_service import user_service
-from ..core.api_service import api_service
+
+from src.core.locales import MessageKey, get_text
+from src.core.models import UserState
+from src.services import user_service
+from src.services import api_service
 
 data_collection_router = Router(name="data_collection")
 

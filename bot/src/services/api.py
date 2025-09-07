@@ -2,9 +2,7 @@ import aiohttp
 import asyncio
 import logging
 
-from src.core.settings import Settings
-settings = Settings.load()
-from .models import UserData
+from src.core.models import UserData
 
 logger = logging.getLogger(__name__)
 
@@ -56,4 +54,3 @@ class ApiService:
             return False
 
 
-api_service = ApiService(settings.api_settings.url)
