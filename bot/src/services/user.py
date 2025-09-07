@@ -1,5 +1,4 @@
 from typing import Dict, Optional
-import re
 
 from src.core.models import UserState, UserSchema
 from src.core.locales import Language, detect_language_from_locale
@@ -22,35 +21,35 @@ class UserService:
             )
         return self._users[telegram_id]
     
-    def update_user_language(self, user_id: int, language: Language) -> None:
+    def update_user_language(self, telegram_id: int, language: Language) -> None:
         """Update user language."""
-        if user_id in self._users:
-            self._users[user_id].language = language
+        if telegram_id in self._users:
+            self._users[telegram_id].language = language
     
-    def update_user_state(self, user_id: int, state: UserState) -> None:
+    def update_user_state(self, telegram_id: int, state: UserState) -> None:
         """Update user state."""
-        if user_id in self._users:
-            self._users[user_id].state = state
+        if telegram_id in self._users:
+            self._users[telegram_id].state = state
     
-    def set_user_email(self, user_id: int, email: str) -> None:
+    def set_user_email(self, telegram_id: int, email: str) -> None:
         """Set user email."""
-        if user_id in self._users:
-            self._users[user_id].email = email
+        if telegram_id in self._users:
+            self._users[telegram_id].email = email
     
-    def set_user_password(self, user_id: int, password: str) -> None:
+    def set_user_password(self, telegram_id, password: str) -> None:
         """Set user password."""
-        if user_id in self._users:
-            self._users[user_id].password = password
+        if telegram_id in self._users:
+            self._users[telegram_id].password = password
     
-    def get_user(self, user_id: int) -> Optional[UserSchema]:
+    def get_user(self, telegram_id: int) -> Optional[UserSchema]:
         """Get user by ID."""
-        return self._users.get(user_id)
+        return self._users.get(telegram_id)
     
 
-    def clear_user_data(self, user_id: int) -> None:
+    def clear_user_data(self, telegram_id: int) -> None:
         """Clear user data (for privacy)."""
-        if user_id in self._users:
-            self._users[user_id].email = None
-            self._users[user_id].password = None
+        if telegram_id in self._users:
+            self._users[telegram_id].email = None
+            self._users[telegram_id].password = None
 
 
