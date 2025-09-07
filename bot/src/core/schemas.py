@@ -9,10 +9,11 @@ from src.core.locales import Language
 class UserSchema:
     """User data model."""
     telegram_id: int
+    username: str | None = None
     language: Language = Language.ENGLISH
     state: UserState = UserState.START
-    email: str | None = None
-    password: str | None = None
+    university_email: str | None = None
+    university_password: str | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -20,5 +21,5 @@ class UserSchema:
 
 class CreateUserRequestSchema(BaseModel):
     telegram_id: int
-    email: EmailStr
-    password: str
+    university_email: EmailStr
+    university_password: str

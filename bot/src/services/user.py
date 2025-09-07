@@ -40,11 +40,11 @@ class UserService:
 
     def set_user_email(self, telegram_id: int, email: str) -> None:
         if telegram_id in self._users:
-            self._users[telegram_id].email = email
+            self._users[telegram_id].university_email = email
 
     def set_user_password(self, telegram_id, password: str) -> None:
         if telegram_id in self._users:
-            self._users[telegram_id].password = password
+            self._users[telegram_id].university_password = password
 
     def get_user(self, telegram_id: int) -> Optional[UserSchema]:
         """Get user by ID."""
@@ -52,5 +52,5 @@ class UserService:
 
     def clear_user_data(self, telegram_id: int) -> None:
         if telegram_id in self._users:
-            self._users[telegram_id].email = None
-            self._users[telegram_id].password = None
+            self._users[telegram_id].university_email = None
+            self._users[telegram_id].university_password = None
