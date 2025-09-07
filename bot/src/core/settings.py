@@ -23,9 +23,14 @@ class ApiSettings(BaseSettings):
     """API-related settings."""
     model_config = SettingsConfigDict(**COMMON_CONFIG, env_prefix='API_')
 
-    BASE_URL: str = 'http://localhost:8000'
+    BASE_URL: str = 'http://localhost:8000/api/'
+    VERSION: str = 'v1'
     TIMEOUT: int = 10
 
+    @property
+    def url(self) -> str:
+        """Return the API URL."""
+        return f'{self.BASE_URL}{self.VERSION}'
 
 class Settings(BaseSettings):
     """Base settings class for the application."""
