@@ -10,6 +10,9 @@ class NoCallbackDataException(Exception):
 class NoPreviousMessageException(Exception):
     def __init__(self):
         super().__init__("Cannot get previous message from message")
+class NoMessageException(Exception):
+    def __init__(self):
+        super().__init__("Cannot get message from current chat")
 
 class InvalidLanguageException(Exception):
     def __init__(self):
