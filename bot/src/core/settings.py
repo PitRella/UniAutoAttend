@@ -25,12 +25,23 @@ class ApiSettings(BaseSettings):
 
     BASE_URL: str = 'http://localhost:8000/api/'
     VERSION: str = 'v1'
+    USER_ROUTER: str = 'user'
+    GROUP_ROUTER: str = 'group'
     TIMEOUT: int = 10
 
     @property
     def url(self) -> str:
         """Return the API URL."""
         return f'{self.BASE_URL}{self.VERSION}'
+
+    @property
+    def user_route(self) -> str:
+        return f'{self.BASE_URL}{self.USER_ROUTER}'
+
+    @property
+    def group_route(self) -> str:
+        return f'{self.BASE_URL}{self.GROUP_ROUTER}'
+
 
 class Settings(BaseSettings):
     """Base settings class for the application."""
