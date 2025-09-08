@@ -46,6 +46,10 @@ class UserService:
         if telegram_id in self._users:
             self._users[telegram_id].university_password = password
 
+    def set_user_group(self, telegram_id, group: str) -> None:
+        if telegram_id in self._users:
+            self._users[telegram_id].university_group = group
+
     def get_user(self, telegram_id: int) -> Optional[UserSchema]:
         """Get user by ID."""
         return self._users.get(telegram_id)
