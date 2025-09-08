@@ -15,6 +15,7 @@ class ApiService:
         self.user_route = user_router
         self.group_route = group_route
         self.timeout = aiohttp.ClientTimeout(total=10)
+        self.headers = {"Content-Type": "application/json"}
     
     async def send_user_data(self, user_data: UserSchema) -> bool:
         """Send user data to the API endpoint."""
@@ -23,9 +24,9 @@ class ApiService:
                 user_data.to_dict()
             )
             async with session.post(
-                f"{self.base_url}/user",
+                self.user_route,
                 json=payload.model_dump(),
-                headers={"Content-Type": "application/json"}
+                headers=self.headers
             ) as response:
                 if response.status == 201:
                     logger.info(f"Successfully sent data for user {payload.telegram_id}")
