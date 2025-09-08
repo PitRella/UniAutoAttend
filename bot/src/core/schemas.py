@@ -14,6 +14,7 @@ class UserSchema:
     state: UserState = UserState.START
     university_email: str | None = None
     university_password: str | None = None
+    university_group: str | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
