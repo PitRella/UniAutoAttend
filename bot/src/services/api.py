@@ -34,17 +34,4 @@ class ApiService:
                 else:
                     logger.error(f"API returned status {response.status} for user {payload.telegram_id}")
         return False
-                        
-
-    
-    async def health_check(self) -> bool:
-        """Check if the API is available."""
-        try:
-            async with aiohttp.ClientSession(timeout=self.timeout) as session:
-                async with session.get(f"{self.base_url}/health") as response:
-                    return response.status == 200
-        except Exception as e:
-            logger.error(f"Health check failed: {e}")
-            return False
-
 
