@@ -1,5 +1,5 @@
-from .user_validator import UserDataValidator
-from .tg_validatior import TelegramValidatorService
+from .user_data import UserDataValidator
+from .telegram import TelegramValidatorService
 
 __all__ = [
     'UserDataValidator',
