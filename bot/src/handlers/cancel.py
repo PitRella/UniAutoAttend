@@ -5,7 +5,8 @@ from aiogram.fsm.context import FSMContext
 from src.core.locales import MessageKey, get_text
 from src.core.schemas import UserSchema
 from src.core.enum import UserState
-from src.services import user_service, TelegramValidatorService
+from src.services import user_service
+from src.services.validators import TelegramValidatorService
 from aiogram.types import (
     CallbackQuery,
     Message,

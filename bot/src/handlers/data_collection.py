@@ -1,15 +1,14 @@
 from aiogram import Router, F
-from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from src.core.locales import MessageKey, get_text
 from src.core.schemas import UserSchema
 from src.core.enum import UserState
-from src.services import (
-    user_service,
-    TelegramValidatorService,
-    UserDataValidator
+from src.services.validators import (
+    UserDataValidator,
+    TelegramValidatorService
 )
+from src.services import user_service
 from src.services import api_service
 from aiogram.types import (
     User,

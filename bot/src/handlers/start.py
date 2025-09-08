@@ -12,7 +12,8 @@ from src.core.locales import Language, MessageKey, get_text
 from src.core.keyboards import get_language_keyboard
 from src.core.schemas import UserSchema
 from src.core.enum import UserState
-from src.services import user_service, TelegramValidatorService
+from src.services.validators.tg_validatior import TelegramValidatorService
+from src.services import user_service
 
 start_router = Router(name="start")
 
