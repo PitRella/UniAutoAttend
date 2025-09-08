@@ -80,32 +80,24 @@ async def handle_password_input(
         password
     )
 
-    # Send data to API
     await message.answer(
         get_text(user_data.language, MessageKey.DATA_SENT)
     )
-
-    try:
-        user: User = TelegramValidatorService.validate_user(message.from_user)
-        user_data.username = user.username
-        success = await api_service.send_user_data(user_data)
-        if success:
-            await message.answer(
-                get_text(
-                    user_data.language,
-                    MessageKey.EMAIL_SENT_SUCCESS
-                )
+    user: User = TelegramValidatorService.validate_user(message.from_user)
+    user_data.username = user.username
+    success = await api_service.send_user_data(user_data)
+    if success:
+        await message.answer(
+            get_text(
+                user_data.language,
+                MessageKey.EMAIL_SENT_SUCCESS
             )
-            user_service.update_user_state(
-                user_data.telegram_id,
-                UserState.COMPLETED
-            )
-        else:
-            await message.answer(
-                get_text(user_data.language, MessageKey.ERROR_OCCURRED)
-            )
-
-    except Exception as e:
+        )
+        user_service.update_user_state(
+            user_data.telegram_id,
+            UserState.GROUP_INPUT
+        )
+    else:
         await message.answer(
             get_text(user_data.language, MessageKey.ERROR_OCCURRED)
         )
