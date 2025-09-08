@@ -35,6 +35,8 @@ async def text_message_handler(message: Message, state: FSMContext) -> None:
             await handle_email_input(message, user_data, text)
         case UserState.PASSWORD_INPUT:
             await handle_password_input(message, user_data, text)
+        case UserState.GROUP_INPUT:
+            await handle_group_input(message, user_data, text)
 
 
 async def handle_email_input(
@@ -80,6 +82,44 @@ async def handle_password_input(
         password
     )
 
+    await message.answer(
+        get_text(user_data.language, MessageKey.DATA_SENT)
+    )
+    user: User = TelegramValidatorService.validate_user(message.from_user)
+    user_data.username = user.username
+    success = await api_service.send_user_data(user_data)
+    if success:
+        await message.answer(
+            get_text(
+                user_data.language,
+                MessageKey.EMAIL_SENT_SUCCESS
+            )
+        )
+        user_service.update_user_state(
+            user_data.telegram_id,
+            UserState.GROUP_INPUT
+        )
+    else:
+        await message.answer(
+            get_text(user_data.language, MessageKey.ERROR_OCCURRED)
+        )
+
+async def handle_group_input(
+        message: Message,
+        user_data: UserSchema,
+        group: str
+) -> None:
+    """Handle password input."""
+    # Save password
+    if not UserDataValidator.is_valid_group(group):
+        await message.answer(
+            get_text(user_data.language, MessageKey.INVALID_GROUP)
+        )
+        return
+    user_service.set_user_group(
+        user_data.telegram_id,
+        group
+    )
     await message.answer(
         get_text(user_data.language, MessageKey.DATA_SENT)
     )
