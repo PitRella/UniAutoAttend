@@ -1,30 +1,27 @@
 import aiohttp
-import asyncio
 import logging
 
 from src.core.schemas import UserSchema, CreateUserRequestSchema
+from src.services.api.base import BaseApiService
 
 logger = logging.getLogger(__name__)
 
 
-class ApiService:
+class UserApiService(BaseApiService):
     """Service for sending data to external API."""
 
-    def __init__(self, base_url: str, user_router: str, group_route: str):
-        self.base_url = base_url
-        self.user_route = user_router
-        self.group_route = group_route
-        self.timeout = aiohttp.ClientTimeout(total=10)
-        self.headers = {"Content-Type": "application/json"}
 
-    async def send_user_data(self, user_data: UserSchema) -> bool:
+    def __init__(self, base_url: str, api_url: str):
+        super().__init__(base_url, api_url)
+
+    async def send(self, user_data: UserSchema) -> bool:
         """Send user data to the API endpoint."""
         async with aiohttp.ClientSession(timeout=self.timeout) as session:
             payload = CreateUserRequestSchema.model_validate(
                 user_data.to_dict()
             )
             async with session.post(
-                self.user_route,
+                self.api_url,
                 json=payload.model_dump(),
                 headers=self.headers
             ) as response:

@@ -9,7 +9,7 @@ from src.services.validators import (
     TelegramValidatorService
 )
 from src.services import user_service
-from src.services import api_service
+from src.services.api import api_service
 from aiogram.types import (
     User,
     Message,
