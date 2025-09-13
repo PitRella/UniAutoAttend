@@ -1,0 +1,38 @@
+import re
+from pydantic import BaseModel, EmailStr, Field
+from dataclasses import dataclass, asdict
+from src.core.enum import UserState
+from src.core.locales import Language
+
+@dataclass(kw_only=True, slots=True)
+class BaseSchemas:
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+@dataclass(kw_only=True, slots=True)
+class UserSchema(BaseSchemas):
+    """User data model."""
+    telegram_id: int
+    username: str | None = None
+    language: Language = Language.ENGLISH
+    state: UserState = UserState.START
+    university_email: str | None = None
+    university_password: str | None = None
+    university_group: str | None = None
+
+
+
+class CreateUserRequestSchema(BaseModel):
+    telegram_id: int
+    username: str
+    university_email: EmailStr
+    university_password: str
+
+
+class SetGroupForUserRequestSchema(BaseModel):
+    telegram_id: int
+    name: str = Field(..., alias="university_group")
+
+    model_config = {
+        "populate_by_name": True,
+    }

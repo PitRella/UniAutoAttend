@@ -7,6 +7,8 @@ from src.user.schemas import (
 )
 from src.user.models import Group, User
 
+from backend.src.user.exceptions import UserNotFoundException
+
 
 class GroupService(BaseService):
     def __init__(
@@ -35,11 +37,15 @@ class GroupService(BaseService):
                 name=group_data['name']
             )
             if not group:
-                group: Group = await self._dao.create(group_data)
-            await self._user_dao.update(
+                created_group: Group = await self._dao.create(group_data)
+                await self._session.flush()
+                await self._session.refresh(created_group)
+            updated_user = await self._user_dao.update(
                 {
-                    "group_id": group.id
+                    "group_id": group.id if group else created_group.id,
                 },
                 telegram_id=telegram_id
             )
+            if not updated_user:
+                raise UserNotFoundException
         return None

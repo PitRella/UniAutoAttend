@@ -19,6 +19,30 @@ class TelegramSettings(BaseSettings):
     API_TOKEN: str = ''
 
 
+class ApiSettings(BaseSettings):
+    """API-related settings."""
+    model_config = SettingsConfigDict(**COMMON_CONFIG, env_prefix='API_')
+
+    BASE_URL: str = 'http://localhost:8000/api/'
+    VERSION: str = 'v1/'
+    USER_ROUTER: str = 'user'
+    GROUP_ROUTER: str = 'group'
+    TIMEOUT: int = 10
+
+    @property
+    def url(self) -> str:
+        """Return the API URL."""
+        return f'{self.BASE_URL}{self.VERSION}'
+
+    @property
+    def user_route(self) -> str:
+        return f"{self.url}{self.USER_ROUTER}"
+
+    @property
+    def group_route(self) -> str:
+        return f"{self.url}{self.GROUP_ROUTER}"
+
+
 class Settings(BaseSettings):
     """Base settings class for the application."""
 
@@ -32,6 +56,9 @@ class Settings(BaseSettings):
     # Nested settings
     telegram_settings: TelegramSettings = Field(
         default_factory=TelegramSettings
+    )
+    api_settings: ApiSettings = Field(
+        default_factory=ApiSettings
     )
 
     @classmethod
