@@ -83,7 +83,7 @@ async def handle_password_input(
     )
 
     await message.answer(
-        get_text(user_data.language, MessageKey.DATA_SENT)
+        get_text(user_data.language, MessageKey.USER_DATA_SENT)
     )
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_data.username = user.username
@@ -99,6 +99,9 @@ async def handle_password_input(
             user_data.telegram_id,
             UserState.GROUP_INPUT
         )
+        await message.answer(
+            get_text(user_data.language, MessageKey.ENTER_GROUP)
+        )
     else:
         await message.answer(
             get_text(user_data.language, MessageKey.ERROR_OCCURRED)
@@ -109,8 +112,6 @@ async def handle_group_input(
         user_data: UserSchema,
         group: str
 ) -> None:
-    """Handle password input."""
-    # Save password
     if not UserDataValidator.is_valid_group(group):
         await message.answer(
             get_text(user_data.language, MessageKey.INVALID_GROUP)
@@ -121,7 +122,7 @@ async def handle_group_input(
         group
     )
     await message.answer(
-        get_text(user_data.language, MessageKey.DATA_SENT)
+        get_text(user_data.language, MessageKey.USER_DATA_SENT)
     )
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_data.username = user.username
