@@ -19,9 +19,11 @@ class MessageKey(StrEnum):
     INVALID_EMAIL = "invalid_email"
     INVALID_PASSWORD = "invalid_password"
     INVALID_GROUP = "invalid_group"
-    USER_DATA_SENT = "data_sent"
+    USER_DATA_SENT = "user_data_sent"
+    GROUP_DATA_SENT = "group_data_sent"
     ERROR_OCCURRED = "error_occurred"
     EMAIL_SENT_SUCCESS = "email_sent_success"
+    GROUP_SENT_SUCCESS = "group_sent_success"
     CURRENT_SUFFIX = "current_suffix"
     CANCEL = "cancel"
 
@@ -49,6 +51,7 @@ TRANSLATIONS: Dict[
         MessageKey.USER_DATA_SENT: "📤 Дані відправлено на сервер...",
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
+        MessageKey.GROUP_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
         LanguageLabelKey.UK: "Українська",
         LanguageLabelKey.EN: "Англійська",
         MessageKey.CURRENT_SUFFIX: " (Поточна)",
