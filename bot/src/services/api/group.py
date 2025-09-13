@@ -1,7 +1,8 @@
 import aiohttp
 import logging
 
-from src.core.schemas import UserSchema, CreateUserRequestSchema
+from src.core.schemas import UserSchema, CreateUserRequestSchema, \
+    SetGroupForUserRequestSchema
 from src.services.api.base import BaseApiService
 
 logger = logging.getLogger(__name__)
@@ -15,9 +16,8 @@ class GroupApiService(BaseApiService):
         super().__init__(base_url, api_url)
 
     async def send(self, user_data: UserSchema) -> bool:
-        """Send user data to the API endpoint."""
         async with aiohttp.ClientSession(timeout=self.timeout) as session:
-            payload = CreateUserRequestSchema.model_validate(
+            payload = SetGroupForUserRequestSchema.model_validate(
                 user_data.to_dict()
             )
             async with session.post(

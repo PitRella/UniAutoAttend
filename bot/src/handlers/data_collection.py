@@ -9,7 +9,7 @@ from src.services.validators import (
     TelegramValidatorService
 )
 from src.services import user_service
-from src.services.api import api_service
+from src.services.api import api_service, group_service
 from aiogram.types import (
     User,
     Message,
@@ -126,12 +126,12 @@ async def handle_group_input(
     )
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_data.username = user.username
-    success = await api_service.send_user_data(user_data)
+    success = await group_service.send(user_data)
     if success:
         await message.answer(
             get_text(
                 user_data.language,
-                MessageKey.EMAIL_SENT_SUCCESS
+                MessageKey.GROUP_SENT_SUCCESS
             )
         )
         user_service.update_user_state(
