@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
-from src.core.dao import BaseDAO
-from src.core.service import BaseService
+from src.core.base import BaseDAO
+from src.core.base import BaseService
 from src.user.schemas import (
     CreateGroupRequestSchema,
 )

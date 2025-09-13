@@ -1,6 +1,6 @@
 from pydantic import Field, EmailStr
 
-from src.core.schemas import BaseSchema
+from src.core.base import BaseSchema
 
 
 class CreateGroupRequestSchema(BaseSchema):

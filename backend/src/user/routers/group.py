@@ -6,7 +6,7 @@ from src.user.schemas import (
      CreateGroupRequestSchema
 )
 from src.user.services import GroupService
-from src.core.dependency import get_service
+from src.core.base import get_service
 
 group_router = APIRouter(prefix='/group', tags=['group'])
 

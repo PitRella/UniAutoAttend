@@ -3,7 +3,7 @@ from typing import final
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.core.exceptions import ForgottenParametersException
+from src.core.base import ForgottenParametersException
 
 
 class BaseService:
