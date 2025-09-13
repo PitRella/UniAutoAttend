@@ -15,6 +15,7 @@ class MessageKey(StrEnum):
     LANGUAGE_SELECTED = "language_selected"
     ENTER_EMAIL = "enter_email"
     ENTER_PASSWORD = "enter_password"
+    ENTER_GROUP = "enter_group"
     INVALID_EMAIL = "invalid_email"
     INVALID_PASSWORD = "invalid_password"
     INVALID_GROUP = "invalid_group"
@@ -41,6 +42,7 @@ TRANSLATIONS: Dict[
         MessageKey.LANGUAGE_SELECTED: "✅ Мову змінено на українську",
         MessageKey.ENTER_EMAIL: "📧 Будь ласка, введіть вашу електронну пошту:",
         MessageKey.ENTER_PASSWORD: "🔐 Тепер введіть пароль від вашої пошти:",
+        MessageKey.ENTER_GROUP: "👥 Введіть назву вашої групи",
         MessageKey.INVALID_EMAIL: "❌ Неправильний формат електронної пошти. Спробуйте ще раз:",
         MessageKey.INVALID_PASSWORD: "❌ Неправильний формат паролю. Спробуйте ще раз:",
         MessageKey.INVALID_GROUP: "❌ Неправильний формат группи. Спробуйте ще раз:",
@@ -58,6 +60,7 @@ TRANSLATIONS: Dict[
         MessageKey.LANGUAGE_SELECTED: "✅ Language changed to English",
         MessageKey.ENTER_EMAIL: "📧 Please enter your email address:",
         MessageKey.ENTER_PASSWORD: "🔐 Now enter your email password:",
+        MessageKey.ENTER_GROUP: "👥 Please enter your group name:",
         MessageKey.INVALID_EMAIL: "❌ Invalid email format. Please try again:",
         MessageKey.INVALID_PASSWORD: "❌ Invalid password format. Please try again:",
         MessageKey.INVALID_GROUP: "❌ Invalid group format. Please try again:",
