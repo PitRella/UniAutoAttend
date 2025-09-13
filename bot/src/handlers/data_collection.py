@@ -87,7 +87,7 @@ async def handle_password_input(
     )
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_data.username = user.username
-    success = await api_service.send_user_data(user_data)
+    success = await api_service.send(user_data)
     if success:
         await message.answer(
             get_text(
