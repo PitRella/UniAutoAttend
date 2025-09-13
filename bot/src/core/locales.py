@@ -19,7 +19,7 @@ class MessageKey(StrEnum):
     INVALID_EMAIL = "invalid_email"
     INVALID_PASSWORD = "invalid_password"
     INVALID_GROUP = "invalid_group"
-    DATA_SENT = "data_sent"
+    USER_DATA_SENT = "data_sent"
     ERROR_OCCURRED = "error_occurred"
     EMAIL_SENT_SUCCESS = "email_sent_success"
     CURRENT_SUFFIX = "current_suffix"
@@ -46,7 +46,7 @@ TRANSLATIONS: Dict[
         MessageKey.INVALID_EMAIL: "❌ Неправильний формат електронної пошти. Спробуйте ще раз:",
         MessageKey.INVALID_PASSWORD: "❌ Неправильний формат паролю. Спробуйте ще раз:",
         MessageKey.INVALID_GROUP: "❌ Неправильний формат группи. Спробуйте ще раз:",
-        MessageKey.DATA_SENT: "📤 Дані відправлено на сервер...",
+        MessageKey.USER_DATA_SENT: "📤 Дані відправлено на сервер...",
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
         LanguageLabelKey.UK: "Українська",
@@ -64,7 +64,7 @@ TRANSLATIONS: Dict[
         MessageKey.INVALID_EMAIL: "❌ Invalid email format. Please try again:",
         MessageKey.INVALID_PASSWORD: "❌ Invalid password format. Please try again:",
         MessageKey.INVALID_GROUP: "❌ Invalid group format. Please try again:",
-        MessageKey.DATA_SENT: "📤 Sending data to server...",
+        MessageKey.USER_DATA_SENT: "📤 Sending data to server...",
         MessageKey.ERROR_OCCURRED: "❌ An error occurred. Please try again later.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Data successfully sent to server!",
         LanguageLabelKey.UK: "Ukrainian",
