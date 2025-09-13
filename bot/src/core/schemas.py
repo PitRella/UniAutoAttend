@@ -1,5 +1,5 @@
 import re
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from dataclasses import dataclass, asdict
 from src.core.enum import UserState
 from src.core.locales import Language
@@ -31,4 +31,8 @@ class CreateUserRequestSchema(BaseModel):
 
 class SetGroupForUserRequestSchema(BaseModel):
     telegram_id: int
-    name: str
+    name: str = Field(..., alias="university_group")
+
+    model_config = {
+        "populate_by_name": True,
+    }
