@@ -1,13 +1,19 @@
 from abc import ABC, abstractmethod
+from typing import final
+from pydantic import BaseModel
 
 import aiohttp
 from enum import StrEnum
+
+from src.core.schemas import BaseSchemas
 
 
 class ApiStatusesEnum(StrEnum):
     ERROR = "error"
     ALREADY_EXISTS = "already_exists"
     SUCCESS = "success"
+
+
 
 
 class BaseApiService(ABC):
@@ -18,6 +24,28 @@ class BaseApiService(ABC):
         self.timeout = aiohttp.ClientTimeout(total=10)
         self.headers = {"Content-Type": "application/json"}
 
-    @abstractmethod
-    def send(self, *args, **kwargs) -> ApiStatusesEnum:
-        pass
+    @final
+    async def _send(self, payload: BaseModel) -> ApiStatusesEnum:
+        async with aiohttp.ClientSession(timeout=self.timeout) as session:
+            async with session.post(
+                    self.api_url,
+                    json=payload.model_dump(),
+                    headers=self.headers
+            ) as response:
+                match response.status:
+                    case 409:
+                        return ApiStatusesEnum.ALREADY_EXISTS
+                    case 201:
+                        return ApiStatusesEnum.SUCCESS
+                return ApiStatusesEnum.ERROR
+
+    async def send(
+            self,
+            user_data: BaseSchemas,
+            payload_model: BaseModel
+    ) -> ApiStatusesEnum:
+        return await self._send(
+            payload_model.model_validate(
+                user_data.to_dict()
+            )
+        )
