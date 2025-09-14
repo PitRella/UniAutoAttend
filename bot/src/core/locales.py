@@ -20,6 +20,7 @@ class MessageKey(StrEnum):
     INVALID_PASSWORD = "invalid_password"
     INVALID_GROUP = "invalid_group"
     USER_DATA_SENT = "user_data_sent"
+    USER_ALREADY_EXISTS = "user_already_exists"
     GROUP_DATA_SENT = "group_data_sent"
     ERROR_OCCURRED = "error_occurred"
     EMAIL_SENT_SUCCESS = "email_sent_success"
@@ -49,6 +50,7 @@ TRANSLATIONS: Dict[
         MessageKey.INVALID_PASSWORD: "❌ Неправильний формат паролю. Спробуйте ще раз:",
         MessageKey.INVALID_GROUP: "❌ Неправильний формат группи. Спробуйте ще раз:",
         MessageKey.USER_DATA_SENT: "📤 Дані відправлено на сервер...",
+        MessageKey.USER_ALREADY_EXISTS: "⏭️ Ви вже раніше реєструвалися, тому цей крок було пропущено.",
         MessageKey.ERROR_OCCURRED: "❌ Виникла помилка. Спробуйте пізніше.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
         MessageKey.GROUP_SENT_SUCCESS: "✅ Дані успішно відправлено на сервер!",
@@ -68,6 +70,7 @@ TRANSLATIONS: Dict[
         MessageKey.INVALID_PASSWORD: "❌ Invalid password format. Please try again:",
         MessageKey.INVALID_GROUP: "❌ Invalid group format. Please try again:",
         MessageKey.USER_DATA_SENT: "📤 Sending data to server...",
+        MessageKey.USER_ALREADY_EXISTS: "⏭️ You have already registered before, so we’re skipping this step.",
         MessageKey.ERROR_OCCURRED: "❌ An error occurred. Please try again later.",
         MessageKey.EMAIL_SENT_SUCCESS: "✅ Data successfully sent to server!",
         LanguageLabelKey.UK: "Ukrainian",
