@@ -1,7 +1,9 @@
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from src.core.base import BaseDAO
 from src.core.base import BaseService
+from src.user.exceptions import UserAlreadyExistsException
 from src.user.schemas import (
     CreateUserRequestSchema,
     UpdateUserUnivInfoRequestSchema
@@ -23,8 +25,11 @@ class UserService(BaseService):
 
     async def create_user(self, user_schema: CreateUserRequestSchema) -> None:
         # TODO: Implement user password encryption
-        async with self._session.begin():
-            await self._dao.create(user_schema)
+        try:
+            async with self._session.begin():
+                await self._dao.create(user_schema)
+        except IntegrityError:
+            raise UserAlreadyExistsException
         return None
 
     async def update_user(
