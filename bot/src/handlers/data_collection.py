@@ -15,6 +15,12 @@ from aiogram.types import (
     Message,
 )
 
+from src.core.schemas import (
+    CreateUserRequestSchema,
+    SetGroupForUserRequestSchema
+)
+from src.services.api.base import ApiStatusesEnum
+
 data_collection_router = Router(name="data_collection")
 
 
@@ -87,25 +93,44 @@ async def handle_password_input(
     )
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_data.username = user.username
-    success = await api_service.send(user_data)
-    if success:
-        await message.answer(
-            get_text(
-                user_data.language,
-                MessageKey.EMAIL_SENT_SUCCESS
+    api_status = await api_service.send(
+        user_data=user_data,
+        payload_model=CreateUserRequestSchema
+    )
+    match api_status:
+        case ApiStatusesEnum.ALREADY_EXISTS:
+            await message.answer(
+                get_text(
+                    user_data.language,
+                    MessageKey.USER_ALREADY_EXISTS
+                )
             )
-        )
-        user_service.update_user_state(
-            user_data.telegram_id,
-            UserState.GROUP_INPUT
-        )
-        await message.answer(
-            get_text(user_data.language, MessageKey.ENTER_GROUP)
-        )
-    else:
-        await message.answer(
-            get_text(user_data.language, MessageKey.ERROR_OCCURRED)
-        )
+            user_service.update_user_state(
+                user_data.telegram_id,
+                UserState.GROUP_INPUT
+            )
+            await message.answer(
+                get_text(user_data.language, MessageKey.ENTER_GROUP)
+            )
+        case ApiStatusesEnum.SUCCESS:
+            await message.answer(
+                get_text(
+                    user_data.language,
+                    MessageKey.EMAIL_SENT_SUCCESS
+                )
+            )
+            user_service.update_user_state(
+                user_data.telegram_id,
+                UserState.GROUP_INPUT
+            )
+            await message.answer(
+                get_text(user_data.language, MessageKey.ENTER_GROUP)
+            )
+        case _:
+            await message.answer(
+                get_text(user_data.language, MessageKey.ERROR_OCCURRED)
+            )
+
 
 async def handle_group_input(
         message: Message,
@@ -126,21 +151,24 @@ async def handle_group_input(
     )
     user: User = TelegramValidatorService.validate_user(message.from_user)
     user_data.username = user.username
-    success = await group_service.send(user_data)
-    if success:
-        await message.answer(
-            get_text(
-                user_data.language,
-                MessageKey.GROUP_SENT_SUCCESS
+    api_status = await group_service.send(
+        user_data=user_data,
+        payload_model=SetGroupForUserRequestSchema
+    )
+    match api_status:
+        case ApiStatusesEnum.SUCCESS:
+            await message.answer(
+                get_text(
+                    user_data.language,
+                    MessageKey.GROUP_SENT_SUCCESS
+                )
             )
-        )
-        user_service.update_user_state(
-            user_data.telegram_id,
-            UserState.GROUP_INPUT
-        )
-    else:
-        await message.answer(
-            get_text(user_data.language, MessageKey.ERROR_OCCURRED)
-        )
-
+            user_service.update_user_state(
+                user_data.telegram_id,
+                UserState.GROUP_INPUT
+            )
+        case _:
+            await message.answer(
+                get_text(user_data.language, MessageKey.ERROR_OCCURRED)
+            )
     user_service.clear_user_data(user_data.telegram_id)
