@@ -5,6 +5,13 @@ class BaseUserException(HTTPException):
     """Base class for all custom user exceptions."""
 
 
+class UserAlreadyExistsException(BaseUserException):
+    def __init__(self) -> None:
+        super().__init__(
+            status_code=409,
+            detail='Telegram id already exists',
+        )
+
 
 class UserNotFoundException(BaseUserException):
     def __init__(self) -> None:
